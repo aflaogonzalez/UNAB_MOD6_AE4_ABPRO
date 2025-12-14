@@ -4,18 +4,22 @@ package cl.lte.ae4_abp
  * Esta clase se encarga de calcular el salario neto.
  * Cumple con el Principio de Responsabilidad Única (SRP) de SOLID,
  * ya que su única responsabilidad es el cálculo del salario.
+ *
+ * También cumple con el Principio de Inversión de Dependencias (DIP),
+ * ya que depende de una abstracción ([DeductionCalculator]) en lugar de una concreción.
+ *
+ * @param deductionCalculator El calculador de deducciones a utilizar.
  */
-class SalaryCalculator {
+class SalaryCalculator(private val deductionCalculator: DeductionCalculator) {
 
     /**
-     * Calcula el salario neto aplicando una deducción del 20% al salario bruto.
+     * Calcula el salario neto restando la deducción calculada del salario bruto.
      *
      * @param grossSalary El salario bruto del trabajador.
      * @return El salario neto después de las deducciones.
      */
     fun calculateNetSalary(grossSalary: Double): Double {
-        // Aquí aplicamos una lógica de negocio simple: una deducción del 20%.
-        // En una aplicación real, esta lógica podría ser mucho más compleja.
-        return grossSalary * 0.8
+        val deduction = deductionCalculator.calculateDeduction(grossSalary)
+        return grossSalary - deduction
     }
 }

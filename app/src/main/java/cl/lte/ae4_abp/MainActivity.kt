@@ -23,11 +23,15 @@ class MainActivity : AppCompatActivity() {
 
             // Verificamos que el salario no sea nulo o cero
             if (grossSalary != null && grossSalary > 0) {
-                // Creamos una instancia de nuestra calculadora
-                val salaryCalculator = SalaryCalculator()
-                // Calculamos el salario neto
+                // 1. Creamos una instancia de la implementación de la deducción
+                val deductionCalculator = FixedDeductionCalculator()
+                // 2. Creamos la calculadora de salario, pasándole la dependencia
+                val salaryCalculator = SalaryCalculator(deductionCalculator)
+
+                // 3. Calculamos el salario neto
                 val netSalary = salaryCalculator.calculateNetSalary(grossSalary)
-                // Mostramos el resultado en el TextView
+
+                // 4. Mostramos el resultado en el TextView
                 netSalaryTextView.text = "Salario Neto: $%.2f".format(netSalary)
             } else {
                 // Mostramos un mensaje de error si la entrada no es válida
